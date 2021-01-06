@@ -1,0 +1,10 @@
+{
+  "name": "foodly-backend",
+  "version": "1.0.0",
+  "description": "Backend Foodly",
+  "main": "server.ts",
+  "repository": "https://github.com/terrenceyves/foodly-backend",
+  "author": "Terrence Kondou",
+  "license": "MIT",
+  "private": false
+}
