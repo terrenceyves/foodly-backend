@@ -1,0 +1,51 @@
+name: Recette Workflow
+
+on:
+  push:
+    branches:
+      - develop
+    paths-ignore:
+      - "doc/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node_modules dependencies
+        id: node-cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Dependencies
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: yarn install --frozen-lockfile --check-files
+
+      - name: Linting, Typechecking & Testing
+        run: yarn ci
+
+  build_deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Restore dependencies
+        uses: actions/cache@v2
+        id: restore-build
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Building on Recette Environment
+        run: yarn build:recette
+
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.8.9 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "foodly-backend-recette" #Must be unique in Heroku
+          heroku_email: "kondou.terrence@gmail.com"
