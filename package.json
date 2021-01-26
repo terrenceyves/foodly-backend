@@ -8,14 +8,49 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts"
+    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
+    "------ALL-DEVELOPMENT-CMDs------": "",
+    "local-start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
+    "------ALL-BUILDs-CMDs------": "",
+    "build": "react-scripts build",
+    "------ALL-TESTs-CMDs------": "",
+    "test": "jest",
+    "------ALL-LINTING-CMDs------": "",
+    "lint:eslint": "yarn lint",
+    "lint:ts": "yarn typecheck",
+    "lint": "yarn eslint src/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "------ALL-FORMATTING-CMDs------": "",
+    "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
+    "@types/jest": "^26.0.20",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "husky": "^4.3.8",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0",
+    "ts-jest": "^26.4.4",
     "ts-node-dev": "^1.1.1",
     "typescript": "^4.1.3"
   },
   "dependencies": {
+    "env-cmd": "^10.1.0",
     "express": "^4.17.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts}": "yarn eslint --cache --fix",
+    "*.{js,ts,json,md}": "pretty-quick --staged --pattern '**/*.*(js|jsx|ts|tsx|json|css|md|html)'"
   }
 }

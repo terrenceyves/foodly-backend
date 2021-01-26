@@ -1,0 +1,7 @@
+{
+  "extends": ["tslint-plugin-prettier"],
+  "rules": {
+    "prettier": [true, ".prettierrc"]
+    "no-console": [true, "log", "error"]
+  }
+}
