@@ -8,11 +8,15 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
+    "start": "tsc && node build/server.js",
     "------ALL-DEVELOPMENT-CMDs------": "",
-    "local-start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
+    "local-start": "yarn tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
+    "dev": "env-cmd -e local -r env-cmd.js yarn local-start",
     "------ALL-BUILDs-CMDs------": "",
-    "build": "react-scripts build",
+    "build": "tsc && node build/server.js",
+    "build:recette": "env-cmd -e recette -r env-cmd.js yarn build",
+    "build:staging": "env-cmd -e staging -r env-cmd.js yarn build",
+    "build:production": "env-cmd -e production -r env-cmd.js yarn build",
     "------ALL-TESTs-CMDs------": "",
     "test": "jest",
     "------ALL-LINTING-CMDs------": "",
@@ -21,7 +25,9 @@
     "lint": "yarn eslint src/**/*.ts",
     "typecheck": "tsc --noEmit",
     "------ALL-FORMATTING-CMDs------": "",
-    "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+    "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "------ALL-CI-CMDs------": "",
+    "ci": "yarn lint && yarn typecheck && yarn test"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
@@ -42,7 +48,11 @@
   },
   "dependencies": {
     "env-cmd": "^10.1.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^9.1.1",
+    "typeorm": "^0.2.30"
   },
   "husky": {
     "hooks": {
@@ -50,7 +60,6 @@
     }
   },
   "lint-staged": {
-    "*.{ts}": "yarn eslint --cache --fix",
-    "*.{js,ts,json,md}": "pretty-quick --staged --pattern '**/*.*(js|jsx|ts|tsx|json|css|md|html)'"
+    "*.{ts}": "yarn eslint --cache --fix"
   }
 }
