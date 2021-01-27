@@ -38,7 +38,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *        description: A successful response
  */
 app.get("/", (req, res) => {
-  res.status(200).send("Bienvenue sur le backend API");
+  res.status(200).send("Deploy Backend Api");
 });
 
 app.listen(port, () => {
